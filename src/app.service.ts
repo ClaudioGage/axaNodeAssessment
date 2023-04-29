@@ -6,6 +6,7 @@ import policiesJson from '../policyData.json';
 export class AppService {
   getHello(): string {
     obtainClientJson(clientsJson);
+    console.log('TEST');
     return 'Hello World!';
   }
   getClient(): any {
