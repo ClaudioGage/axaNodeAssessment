@@ -1,10 +1,10 @@
+import { IsNotEmpty, IsString } from 'class-validator';
 interface Client {
   id: string;
   name: string;
   email: string;
   role: string;
 }
-
 interface Policy {
   id: string;
   amountInsured: number;
@@ -13,9 +13,14 @@ interface Policy {
   installmentPayment: boolean;
   clientId: string;
 }
-interface PolicyPostDTO {
+class LinkPolicyPostDTO {
+  @IsNotEmpty()
+  @IsString()
   clientId: string;
+
+  @IsNotEmpty()
+  @IsString()
   policyId: string;
 }
 
-export { Client, Policy, PolicyPostDTO };
+export { Client, Policy, LinkPolicyPostDTO };

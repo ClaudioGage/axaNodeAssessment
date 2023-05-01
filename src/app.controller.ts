@@ -1,20 +1,22 @@
 import {
+  Body,
   Controller,
   Get,
   HttpException,
   Param,
   Post,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Client, Policy } from './interfaces';
+import { Client, Policy, LinkPolicyPostDTO } from './interfaces';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  test(): string {
+  getHello(): string {
     return this.appService.getHello();
   }
 
@@ -35,7 +37,12 @@ export class AppController {
   }
 
   @Post('linkPolicy')
-  linkPolicyByClient(): string {
-    return this.appService.getHello();
+  linkPolicyByClient(
+    @Body(new ValidationPipe()) linkPolicyDto: LinkPolicyPostDTO,
+  ): Promise<Policy | HttpException> {
+    return this.appService.linkPolicyAndClient(
+      linkPolicyDto.clientId,
+      linkPolicyDto.policyId,
+    );
   }
 }

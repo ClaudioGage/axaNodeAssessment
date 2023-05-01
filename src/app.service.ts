@@ -41,10 +41,11 @@ export class AppService {
     policyId,
   ): Promise<Policy | HttpException> {
     try {
+      const policies = obtainPolicyJson(policiesJson);
+      findByIdOrName(true, policyId, policies);
       return await updatePolicy(clientId, policyId);
     } catch (error) {
-      console.log('error: ', error);
-      throw new HttpException('error', 500);
+      throw new NotFoundException(`Policy with Id: ${policyId} not found`);
     }
   }
 }

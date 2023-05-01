@@ -1,21 +1,22 @@
 import { Policy } from './interfaces';
 import policiesJson from '../policyData.json';
 import fs from 'fs';
-import { NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 
 async function updatePolicy(clientId: string, policyId: string) {
   try {
     const filepath = 'policyData.json';
     const data = await JSON.parse(fs.readFileSync(filepath, 'utf8'));
     const policyIndex = data.policies.findIndex((x) => x.id === policyId);
-    if (policyIndex === -1) {
-      throw new NotFoundException(`Policy with Id: ${policyId} not found`);
-    }
     data.policies[policyIndex].clientId = clientId;
     await fs.writeFileSync(filepath, JSON.stringify(data, null, 4));
     return data.policies[policyIndex];
   } catch (error) {
-    throw new Error();
+    console.log('WHAT: ', error);
+    throw new HttpException(
+      'Internal Server Error',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
   }
 }
 function obtainPolicyJson(policyJson): Policy[] {
