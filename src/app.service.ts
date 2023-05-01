@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Client, Policy } from './interfaces';
 import clientsJson from '../clientsData.json';
 import policiesJson from '../policyData.json';
@@ -12,18 +12,27 @@ export class AppService {
     console.log('FINAL: ', finalClient);
     return 'Hello World!';
   }
-  getClient(id: boolean, searchParam: string): any {
+  getClient(id: boolean, searchParam: string): Client | NotFoundException {
     try {
       const allClients = obtainClientJson(clientsJson);
       const finalClient = findByIdOrName(id, searchParam, allClients);
       return finalClient;
     } catch (error) {
-      throw new NotFoundException(`Client: ${searchParam} not found`);
+      throw new NotFoundException(
+        `Client: ${
+          searchParam[0].toUpperCase() + searchParam.slice(1)
+        } not found`,
+      );
     }
   }
-  getPolicy(): any {
-    obtainPolicyJson(policiesJson);
-    return 'something';
+  getPolicy(policyId: string): Policy | HttpException {
+    try {
+      const policies = obtainPolicyJson(policiesJson);
+      const finalPolicy = findByIdOrName(true, policyId, policies);
+      return finalPolicy;
+    } catch (error) {
+      throw new NotFoundException(`Policy with Id: ${policyId} not found`);
+    }
   }
   linkPolicyAndClient(): any {
     return 'something';
@@ -49,6 +58,6 @@ function findByIdOrName(id: boolean, param: string, searchArray: Array<any>) {
   if (result) {
     return result;
   } else {
-    return Error;
+    throw Error;
   }
 }

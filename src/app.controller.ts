@@ -1,5 +1,13 @@
-import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import { Client, Policy } from './interfaces';
 
 @Controller()
 export class AppController {
@@ -14,16 +22,16 @@ export class AppController {
   getClientByIdAndName(
     @Query('id') id?: string,
     @Query('name') name?: string,
-  ): string {
-    console.log('id: ', id, ' name:', name);
+  ): Client | HttpException {
     const searchParam = id ? id : name.toLowerCase();
     const containsId = id ? true : false;
     return this.appService.getClient(containsId, searchParam);
   }
 
   @Get('policy/:id')
-  getPolicies(@Param('id') id): string {
-    return this.appService.getHello();
+  getPolicies(@Param('id') id): Policy | HttpException {
+    console.log('policyId: ', id);
+    return this.appService.getPolicy(id);
   }
 
   @Post('linkPolicy')
