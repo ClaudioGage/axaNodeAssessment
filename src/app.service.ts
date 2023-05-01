@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Client, Policy } from './interfaces';
 import clientsJson from '../clientsData.json';
 import policiesJson from '../policyData.json';
@@ -12,10 +12,14 @@ export class AppService {
     console.log('FINAL: ', finalClient);
     return 'Hello World!';
   }
-  getClient(): any {
-    const allClients = obtainClientJson(clientsJson);
-    const finalClient = findByIdOrName(true, 'Britney', allClients);
-    return 'something';
+  getClient(id: boolean, searchParam: string): any {
+    try {
+      const allClients = obtainClientJson(clientsJson);
+      const finalClient = findByIdOrName(id, searchParam, allClients);
+      return finalClient;
+    } catch (error) {
+      throw new NotFoundException(`Client: ${searchParam} not found`);
+    }
   }
   getPolicy(): any {
     obtainPolicyJson(policiesJson);
@@ -39,7 +43,9 @@ function obtainPolicyJson(policyJson): Policy[] {
 
 function findByIdOrName(id: boolean, param: string, searchArray: Array<any>) {
   const searchParam = id ? 'id' : 'name';
-  const result = searchArray.find((x) => x[searchParam] === param);
+  const result = searchArray.find(
+    (x) => x[searchParam].toLowerCase() === param,
+  );
   if (result) {
     return result;
   } else {
