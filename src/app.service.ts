@@ -7,10 +7,14 @@ export class AppService {
   getHello(): string {
     obtainClientJson(clientsJson);
     console.log('TEST');
+    const allClients = obtainClientJson(clientsJson);
+    const finalClient = findByIdOrName(false, 'Britney', allClients);
+    console.log('FINAL: ', finalClient);
     return 'Hello World!';
   }
   getClient(): any {
-    obtainClientJson(clientsJson);
+    const allClients = obtainClientJson(clientsJson);
+    const finalClient = findByIdOrName(true, 'Britney', allClients);
     return 'something';
   }
   getPolicy(): any {
@@ -31,4 +35,14 @@ function obtainPolicyJson(policyJson): Policy[] {
   const policies: JSON = policyJson;
   const parsedPolicies = JSON.parse(JSON.stringify(policies)).policies;
   return parsedPolicies;
+}
+
+function findByIdOrName(id: boolean, param: string, searchArray: Array<any>) {
+  const searchParam = id ? 'id' : 'name';
+  const result = searchArray.find((x) => x[searchParam] === param);
+  if (result) {
+    return result;
+  } else {
+    return Error;
+  }
 }
