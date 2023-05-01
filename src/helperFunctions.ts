@@ -7,16 +7,15 @@ async function updatePolicy(clientId: string, policyId: string) {
   try {
     const filepath = 'policyData.json';
     const data = await JSON.parse(fs.readFileSync(filepath, 'utf8'));
-    // console.log('JSON DATA: ', data);
     const policyIndex = data.policies.findIndex((x) => x.id === policyId);
     if (policyIndex === -1) {
       throw new NotFoundException(`Policy with Id: ${policyId} not found`);
     }
     data.policies[policyIndex].clientId = clientId;
     await fs.writeFileSync(filepath, JSON.stringify(data, null, 4));
-    console.log('changed data', data.policies[policyIndex]);
+    return data.policies[policyIndex];
   } catch (error) {
-    console.log(error);
+    throw new Error();
   }
 }
 function obtainPolicyJson(policyJson): Policy[] {

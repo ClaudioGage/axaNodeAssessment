@@ -6,7 +6,7 @@ import policiesJson from '../policyData.json';
 @Injectable()
 export class AppService {
   getHello(): string {
-    updatePolicy('7b624ed3-00d5-4c1b-9ab8-c265067ef58b', '12TEST');
+    updatePolicy('12TEST', '7b624ed3-00d5-4c1b-9ab8-c265067ef58b');
     // obtainClientJson(clientsJson);
     // console.log('TEST');
     // const allClients = obtainClientJson(clientsJson);
@@ -36,8 +36,16 @@ export class AppService {
       throw new NotFoundException(`Policy with Id: ${policyId} not found`);
     }
   }
-  linkPolicyAndClient(): any {
-    return 'something';
+  async linkPolicyAndClient(
+    clientId,
+    policyId,
+  ): Promise<Policy | HttpException> {
+    try {
+      return await updatePolicy(clientId, policyId);
+    } catch (error) {
+      console.log('error: ', error);
+      throw new HttpException('error', 500);
+    }
   }
 }
 function obtainClientJson(clientJson): Client[] {

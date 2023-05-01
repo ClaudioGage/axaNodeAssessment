@@ -13,5 +13,9 @@ interface Policy {
   installmentPayment: boolean;
   clientId: string;
 }
+interface PolicyPostDTO {
+  clientId: string;
+  policyId: string;
+}
 
-export { Client, Policy };
+export { Client, Policy, PolicyPostDTO };
