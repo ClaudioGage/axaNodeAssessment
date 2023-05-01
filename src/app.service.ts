@@ -1,15 +1,17 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Client, Policy } from './interfaces';
+import { updatePolicy } from './helperFunctions';
 import clientsJson from '../clientsData.json';
 import policiesJson from '../policyData.json';
 @Injectable()
 export class AppService {
   getHello(): string {
-    obtainClientJson(clientsJson);
-    console.log('TEST');
-    const allClients = obtainClientJson(clientsJson);
-    const finalClient = findByIdOrName(false, 'Britney', allClients);
-    console.log('FINAL: ', finalClient);
+    updatePolicy('7b624ed3-00d5-4c1b-9ab8-c265067ef58b', '12TEST');
+    // obtainClientJson(clientsJson);
+    // console.log('TEST');
+    // const allClients = obtainClientJson(clientsJson);
+    // const finalClient = findByIdOrName(false, 'Britney', allClients);
+    // console.log('FINAL: ', finalClient);
     return 'Hello World!';
   }
   getClient(id: boolean, searchParam: string): Client | NotFoundException {
