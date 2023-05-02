@@ -26,7 +26,7 @@ $ npm run start:prod
 ## Test API Endpoints
 
 ```bash
-use Postman API link: https://api.postman.com/collections/7242940-4a68ca9c-1967-42e3-858f-69c39a220342?access_key=PMAT-01GZDKZXNSGMMKWMGZVY9E4GVF
+use Postman API link: https://api.postman.com/collections/7242940-4a68ca9c-1967-42e3-858f-69c39a220342?access_key=
 ```
 
 
