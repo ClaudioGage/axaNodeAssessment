@@ -25,10 +25,7 @@ $ npm run start:prod
 
 ## Test API Endpoints
 
-```bash
-use Postman API link: https://api.postman.com/collections/7242940-4a68ca9c-1967-42e3-858f-69c39a220342?access_key=
-```
-
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/7242940-4a68ca9c-1967-42e3-858f-69c39a220342?action=collection%2Ffork&collection-url=entityId%3D7242940-4a68ca9c-1967-42e3-858f-69c39a220342%26entityType%3Dcollection%26workspaceId%3D6a2fb4f0-ea54-4d86-b8ab-ef5fb74de914)
 
 ### UNIT, E2E, COVERAGE TESTING
 
