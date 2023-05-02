@@ -9,6 +9,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Role } from './auth/role.enum';
+import { Roles } from './auth/roles.decorator';
 import { Client, Policy, LinkPolicyPostDTO } from './interfaces';
 
 @Controller()
@@ -37,6 +39,7 @@ export class AppController {
   }
 
   @Post('linkPolicy')
+  @Roles(Role.Admin)
   linkPolicyByClient(
     @Body(new ValidationPipe()) linkPolicyDto: LinkPolicyPostDTO,
   ): Promise<Policy | HttpException> {
