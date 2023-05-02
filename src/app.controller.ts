@@ -30,10 +30,10 @@ export class AppController {
     return this.appService.getClient(containsId, searchParam);
   }
 
-  @Get('policy/:id')
-  getPolicies(@Param('id') id): Policy | HttpException {
-    console.log('policyId: ', id);
-    return this.appService.getPolicy(id);
+  @Get('policies/:name')
+  getPolicies(@Param('name') name): Policy[] | HttpException {
+    console.log('policyId: ', name);
+    return this.appService.getPolicies(name);
   }
 
   @Post('linkPolicy')

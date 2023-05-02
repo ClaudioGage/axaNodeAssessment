@@ -1,6 +1,6 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Client, Policy } from './interfaces';
-import { updatePolicy } from './helperFunctions';
+import { updatePolicy, obtainListPolicies } from './helperFunctions';
 import clientsJson from '../clientsData.json';
 import policiesJson from '../policyData.json';
 @Injectable()
@@ -14,6 +14,7 @@ export class AppService {
     // console.log('FINAL: ', finalClient);
     return 'Hello World!';
   }
+
   getClient(id: boolean, searchParam: string): Client | NotFoundException {
     try {
       const allClients = obtainClientJson(clientsJson);
@@ -27,15 +28,20 @@ export class AppService {
       );
     }
   }
-  getPolicy(policyId: string): Policy | HttpException {
-    try {
-      const policies = obtainPolicyJson(policiesJson);
-      const finalPolicy = findByIdOrName(true, policyId, policies);
-      return finalPolicy;
-    } catch (error) {
-      throw new NotFoundException(`Policy with Id: ${policyId} not found`);
+
+  getPolicies(clientName: string): Policy[] | HttpException {
+    const listPolicies = obtainListPolicies(clientName);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if (listPolicies === true) {
+      throw new NotFoundException(`Client with name: ${clientName} not found`);
+    } else if (listPolicies === false) {
+      throw new NotFoundException(
+        `Client with name: ${clientName} does not have any policies linked`,
+      );
     }
+    return listPolicies as Policy[];
   }
+
   async linkPolicyAndClient(
     clientId,
     policyId,
@@ -49,6 +55,7 @@ export class AppService {
     }
   }
 }
+
 function obtainClientJson(clientJson): Client[] {
   const clients: JSON = clientJson;
   const parsedClients = JSON.parse(JSON.stringify(clients)).clients;
