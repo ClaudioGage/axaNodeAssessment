@@ -125,7 +125,7 @@ URL Example:
 
 ## POSTMAN BUTTON TO ACCESS COLLECTION
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/7242940-4a68ca9c-1967-42e3-858f-69c39a220342?action=collection%2Ffork&collection-url=entityId%3D7242940-4a68ca9c-1967-42e3-858f-69c39a220342%26entityType%3Dcollection%26workspaceId%3D6a2fb4f0-ea54-4d86-b8ab-ef5fb74de914)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/7242940-924af85c-cc55-4994-8aee-5bf42041cb91?action=collection%2Ffork&collection-url=entityId%3D7242940-924af85c-cc55-4994-8aee-5bf42041cb91%26entityType%3Dcollection%26workspaceId%3D6a2fb4f0-ea54-4d86-b8ab-ef5fb74de914)
 
 ## UNIT, E2E, COVERAGE TESTING
 
