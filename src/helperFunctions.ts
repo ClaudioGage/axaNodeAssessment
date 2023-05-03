@@ -4,6 +4,16 @@ import clientsJson from '../clientsData.json';
 import fs from 'fs';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
+function findUserRole(userId: string): string | boolean {
+  const clientList = obtainClientJson();
+  //check if the user exists in the JsonDB if so returns their role
+  const foundClient = clientList.find((x) => x.id === userId);
+  if (foundClient) {
+    return foundClient.role;
+  }
+  return false;
+}
+
 async function updatePolicy(clientId: string, policyId: string) {
   try {
     const filepath = 'policyData.json';
@@ -21,15 +31,14 @@ async function updatePolicy(clientId: string, policyId: string) {
 }
 // the function returns a list of Policies but in the case the name of the client does not exist then it returns true
 // and returns false in the case that there are no policies linked to the client
-// need to work on another implementation too throw diferent erros in case of that but the service.app has that logic/responsibility at the time.
 function obtainListPolicies(clientName: string): Policy[] | boolean | Error {
   try {
-    const clientList = obtainClientJson(clientsJson);
+    const clientList = obtainClientJson();
     const clientSearch = findByIdOrName(false, clientName, clientList);
     if (clientSearch === false) {
       return false;
     }
-    const listPolicies = obtainPolicyJson(policiesJson);
+    const listPolicies = obtainPolicyJson();
     const clientId = clientSearch.id;
     const filteredPolicies = listPolicies.filter(
       (x) => x.clientId === clientId,
@@ -45,14 +54,14 @@ function obtainListPolicies(clientName: string): Policy[] | boolean | Error {
   }
 }
 
-function obtainClientJson(clientJson): Client[] {
-  const clients: JSON = clientJson;
+function obtainClientJson(): Client[] {
+  const clients = clientsJson;
   const parsedClients = JSON.parse(JSON.stringify(clients)).clients;
   return parsedClients;
 }
 
-function obtainPolicyJson(policyJson): Policy[] {
-  const policies: JSON = policyJson;
+function obtainPolicyJson(): Policy[] {
+  const policies = policiesJson;
   const parsedPolicies = JSON.parse(JSON.stringify(policies)).policies;
   return parsedPolicies;
 }
@@ -70,4 +79,11 @@ function findByIdOrName(id: boolean, param: string, searchArray: Array<any>) {
   }
 }
 
-export { updatePolicy, obtainListPolicies, findByIdOrName };
+export {
+  updatePolicy,
+  obtainListPolicies,
+  findByIdOrName,
+  findUserRole,
+  obtainClientJson,
+  obtainPolicyJson,
+};

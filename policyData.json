@@ -6,7 +6,7 @@
             "email": "inesblankenship@quotezart.com",
             "inceptionDate": "2016-06-01T03:33:32Z",
             "installmentPayment": true,
-            "clientId": "1234TEST"
+            "clientId": "a0ece5db-cd14-4f21-812f-966633e7be86"
         },
         {
             "id": "7b624ed3-00d5-4c1b-9ab8-c265067ef58b",
@@ -14,7 +14,7 @@
             "email": "inesblankenship@quotezart.com",
             "inceptionDate": "2015-07-06T06:55:49Z",
             "installmentPayment": true,
-            "clientId": "a0ece5db-cd14-4f21-812f-966633e7be86"
+            "clientId": "12TEST"
         },
         {
             "id": "56b415d6-53ee-4481-994f-4bffa47b5239",

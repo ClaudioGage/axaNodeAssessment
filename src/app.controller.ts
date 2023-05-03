@@ -23,6 +23,7 @@ export class AppController {
   }
 
   @Get('client')
+  @Roles(Role.Admin, Role.User)
   getClientByIdAndName(
     @Query('id') id?: string,
     @Query('name') name?: string,
@@ -33,6 +34,7 @@ export class AppController {
   }
 
   @Get('policies/:name')
+  @Roles(Role.Admin)
   getPolicies(@Param('name') name): Policy[] | HttpException {
     console.log('policyId: ', name);
     return this.appService.getPolicies(name);

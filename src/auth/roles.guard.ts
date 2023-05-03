@@ -2,6 +2,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Role } from './role.enum';
 import { ROLES_KEY } from './roles.decorator';
+import { findUserRole } from 'src/helperFunctions';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -12,10 +13,15 @@ export class RolesGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
-    if (!requiredRoles) {
+    if (!requiredRoles || requiredRoles.length < 1) {
       return true;
     }
-    const { user } = context.switchToHttp().getRequest();
-    return requiredRoles.some((role) => user.roles?.includes(role));
+    const { userid } = context.switchToHttp().getRequest().headers;
+    const userRole = findUserRole(userid);
+    if (userRole) {
+      const userRoleCheck = userRole as Role;
+      return requiredRoles.includes(userRoleCheck);
+    }
+    return false;
   }
 }
