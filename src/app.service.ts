@@ -31,7 +31,7 @@ export class AppService {
     const listPolicies = obtainListPolicies(clientName);
     if (listPolicies === true) {
       throw new NotFoundException(`Client with name: ${clientName} not found`);
-    } else if (listPolicies === false) {
+    } else if (!listPolicies) {
       throw new NotFoundException(
         `Client with name: ${clientName} does not have any policies linked`,
       );

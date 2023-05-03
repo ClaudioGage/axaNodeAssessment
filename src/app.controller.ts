@@ -4,7 +4,7 @@ import {
   Get,
   HttpException,
   Param,
-  Post,
+  Put,
   Query,
   ValidationPipe,
 } from '@nestjs/common';
@@ -28,7 +28,7 @@ export class AppController {
     @Query('id') id?: string,
     @Query('name') name?: string,
   ): Client | HttpException {
-    const searchParam = id ? id : name.toLowerCase();
+    const searchParam = id ? id : name;
     const containsId = id ? true : false;
     return this.appService.getClient(containsId, searchParam);
   }
@@ -36,11 +36,10 @@ export class AppController {
   @Get('policies/:name')
   @Roles(Role.Admin)
   getPolicies(@Param('name') name): Policy[] | HttpException {
-    console.log('policyId: ', name);
     return this.appService.getPolicies(name);
   }
 
-  @Post('linkPolicy')
+  @Put('linkPolicy')
   @Roles(Role.Admin)
   linkPolicyByClient(
     @Body(new ValidationPipe()) linkPolicyDto: LinkPolicyPostDTO,

@@ -35,22 +35,23 @@ function obtainListPolicies(clientName: string): Policy[] | boolean | Error {
   try {
     const clientList = obtainClientJson();
     const clientSearch = findByIdOrName(false, clientName, clientList);
-    if (clientSearch === false) {
-      return false;
+    if (!clientSearch) {
+      return true;
     }
     const listPolicies = obtainPolicyJson();
     const clientId = clientSearch.id;
     const filteredPolicies = listPolicies.filter(
       (x) => x.clientId === clientId,
     );
-    console.log('filteredPolcies: ', filteredPolicies);
     if (filteredPolicies.length < 1) {
-      return true;
+      return false;
     }
     return filteredPolicies;
   } catch (error) {
-    console.log('Obtain Error: ', error);
-    return new Error();
+    throw new HttpException(
+      'Internal Server Error',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
   }
 }
 
@@ -68,10 +69,12 @@ function obtainPolicyJson(): Policy[] {
 
 function findByIdOrName(id: boolean, param: string, searchArray: Array<any>) {
   const searchParam = id ? 'id' : 'name';
+  if (searchParam === 'name') {
+    param = param.toLocaleLowerCase();
+  }
   const result = searchArray.find(
     (x) => x[searchParam].toLowerCase() === param,
   );
-  console.log('findName: ', param);
   if (result) {
     return result;
   } else {
